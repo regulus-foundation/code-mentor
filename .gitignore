@@ -1,7 +1,4 @@
 ## Original ignores
-autogpt/keys.py
-autogpt/*.json
-**/auto_gpt_workspace/*
 *.mpeg
 .env
 azure.yaml
@@ -9,14 +6,13 @@ ai_settings.yaml
 last_run_ai_settings.yaml
 .vscode
 .idea/*
-auto-gpt.json
 log.txt
 log-ingestion.txt
 logs
+myenv
 *.log
 *.mp3
 mem.sqlite3
-venvAutoGPT
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -160,3 +156,7 @@ openai/
 
 # news
 CURRENT_BULLETIN.md
+
+
+#data
+data/

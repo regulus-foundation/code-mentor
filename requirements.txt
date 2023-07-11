@@ -1,0 +1,10 @@
+colorama==0.4.6
+tiktoken==0.3.3
+openai==0.27.2
+python-dotenv==1.0.0
+
+
+
+# OpenAI and Generic plugins import
+openapi-python-client==0.13.4
+
