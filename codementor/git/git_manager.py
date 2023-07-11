@@ -36,3 +36,19 @@ def git_checkout(save_to_path, branch_name):
     except subprocess.CalledProcessError as e:
         logger.info(f"Error occurred while checkout the branch: {branch_name}")
         logger.info(f"Error message: {e}")
+
+
+
+def git_pull(save_to_path):
+
+    save_to_path = "./data/project/code-mentor"  # 저장할 디렉토리의 경로를 지정합니다.
+    try:
+
+        # git clone 명령어 실행
+        cmd = ["git", "pull"]
+        subprocess.run(cmd, cwd=save_to_path, check=True)
+        logger.info(f"Successfully pull")
+
+    except subprocess.CalledProcessError as e:
+        logger.info(f"Error occurred while pull")
+        logger.info(f"Error message: {e}")
