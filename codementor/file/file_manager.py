@@ -1,12 +1,9 @@
 import os
 
 
-def search_files(directory, word):
+def search_files(directory):
 
     found_files = []
-
-    # 사용 예
-    directory = './data/project/code-mentor'
     word = 'code-mentor' + ':' + 'comment'
     # found_files = search_files(directory, word)
 

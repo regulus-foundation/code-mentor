@@ -6,9 +6,8 @@ import openai
 from openai import Model
 
 from codementor.llm.base import CompletionModelInfo
-from codementor.logs import logger
 from codementor.singleton import Singleton
-
+from codementor.logs import logger
 
 class ApiManager(metaclass=Singleton):
     def __init__(self):

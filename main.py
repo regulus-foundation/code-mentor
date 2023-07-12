@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
-from codementor import main
+from codementor import run_code_mentor
 
 
 load_dotenv()  # take environment variables from .env.
 
-main()
+run_code_mentor()
 

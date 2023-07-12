@@ -1,10 +1,11 @@
-import os
-from codementor.agent.agent import Agent
+from codementor.agent.agent import Agent, start_interaction_loop, initialize_git_setting
 
 
-def main():
+def run_code_mentor():
 
-    print("test")
-    print(os.environ.get("OPENAI_API_KEY"))
-    Agent().start_interaction_loop()
+    # first Surce Setting
+    initialize_git_setting()
+
+    # Start Code Mentor Loop
+    start_interaction_loop()
 

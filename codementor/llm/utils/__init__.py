@@ -5,8 +5,8 @@ from typing import List, Literal, Optional
 
 from colorama import Fore
 
-from autogpt.config import Config
-from autogpt.logs import logger
+from codementor.config import Config
+from codementor.logs import logger
 
 from ..api_manager import ApiManager
 from ..base import ChatModelResponse, ChatSequence, Message
@@ -61,6 +61,37 @@ def call_ai_function(
     return create_chat_completion(prompt=prompt, temperature=0, config=config).content
 
 
+
+def call_ai_code_comment(
+    function: str,
+    args: list,
+    description: str,
+    model: Optional[str] = None,
+    config: Optional[Config] = None,
+) -> str:
+
+    if model is None:
+        model = config.smart_llm_model
+    # For each arg, if any are None, convert to "None":
+    args = [str(arg) if arg is not None else "None" for arg in args]
+    # parse args to comma separated string
+    arg_str: str = ", ".join(args)
+
+    prompt = ChatSequence.for_model(
+        model,
+        [
+            Message(
+                "system",
+                f"You are now the following python function: ```# {description}"
+                f"\n{function}```\n\nOnly respond with your `return` value.",
+            ),
+            Message("user", arg_str),
+        ],
+    )
+    return create_chat_completion(prompt=prompt, temperature=0.5, config=config).content
+
+
+
 def create_text_completion(
     prompt: str,
     config: Config,
@@ -73,10 +104,7 @@ def create_text_completion(
     if temperature is None:
         temperature = config.temperature
 
-    if config.use_azure:
-        kwargs = {"deployment_id": config.get_azure_deployment_id_for_model(model)}
-    else:
-        kwargs = {"model": model}
+    kwargs = {"model": model}
 
     response = iopenai.create_text_completion(
         prompt=prompt,
