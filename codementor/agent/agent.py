@@ -1,5 +1,6 @@
 import time
 
+from codementor.alarm.telegram import request_telegram_alarm
 from codementor.file.file_manager import search_files
 from codementor.github.github_manager import merge_request_github
 from codementor.logs import logger
@@ -11,6 +12,7 @@ import openai
 
 
 def initialize_git_setting():
+    
     logger.info(f"initialize_git_setting")
 
     git_hub_repo = os.getenv('GIT_HUB_REPO')
@@ -85,6 +87,7 @@ def start_interaction_loop():
             git_commit(code_project_dir, "add comment")
             git_push(code_project_dir)
             merge_request_github(git_to_merge_branch, git_from_merge_branch)
+            request_telegram_alarm()
         time.sleep(60)
 
 
