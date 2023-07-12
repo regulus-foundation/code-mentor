@@ -1,4 +1,4 @@
-code-mentor:comment
+//code-mentor:comment
 import Bytes from "../utils/bytes";
 import PrvKey from "../crypto/secp256k1/prvKey";
 import PubKey from "../crypto/secp256k1/pubKey";

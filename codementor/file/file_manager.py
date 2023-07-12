@@ -10,14 +10,7 @@ def search_files(directory, word):
     word = 'code-mentor' + ':' + 'comment'
     # found_files = search_files(directory, word)
 
-    if found_files:
-        print(f"The word '{word}' was found in the following files:")
-        for file in found_files:
-            print(file)
-    else:
-        print(f"The word '{word}' was not found in any files.")
-
-    # 디렉토리의 모든 파일과 하위 디렉토리를 순회합니다.
+    # 디렉 토리의 모든 파일과 하위 디렉 토리를 순회 합니다.
     for root, dir, files in os.walk(directory):
         for file in files:
             file_path = os.path.join(root, file)
