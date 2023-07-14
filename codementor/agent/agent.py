@@ -2,9 +2,10 @@ import time
 
 from codementor.alarm.telegram import request_telegram_alarm
 from codementor.file.file_manager import search_files
-from codementor.github.github_manager import merge_request_github
+from codementor.github.github_manager import pull_request_github
 from codementor.logs import logger
-from codementor.git.git_manager import git_clone, git_checkout, git_pull, git_merge, git_commit, git_push
+from codementor.git.git_manager import git_clone, git_checkout, git_pull, git_merge, git_commit, git_push, \
+    git_checkout_new_branch, git_add_all, git_fetch
 from colorama import Fore
 
 import os
@@ -12,7 +13,7 @@ import openai
 
 
 def initialize_git_setting():
-    
+
     logger.info(f"initialize_git_setting")
 
     git_hub_repo = os.getenv('GIT_HUB_REPO')
@@ -20,20 +21,21 @@ def initialize_git_setting():
     git_from_merge_branch = os.getenv('GIT_FROM_MERGE_BRANCH')
 
     code_project_dir = os.getenv('CODE_PROJECT_DIR')
+    project_name = git_hub_repo.split('/')[-1].split('.')[0]
 
-    git_clone(git_hub_repo, code_project_dir)
+    git_clone(git_hub_repo, code_project_dir, project_name)
 
-    git_checkout(code_project_dir, git_to_merge_branch)
+    # git_checkout(code_project_dir, git_to_merge_branch, project_name)
     # git pull
-    git_pull(code_project_dir)
+    git_fetch(code_project_dir, project_name)
 
     # how to solve git conflict
 
     # check already have branch
-    git_checkout(code_project_dir, git_from_merge_branch)
+    git_checkout_new_branch(code_project_dir, git_from_merge_branch, project_name)
     # if not have branch. create new branch and push
 
-    git_merge(code_project_dir, git_to_merge_branch)
+    git_merge(code_project_dir, 'origin/' + git_to_merge_branch, project_name)
 
 
 def call_openai_api_for_code_comment(code):
@@ -58,9 +60,12 @@ def start_interaction_loop():
 
     while True:
 
+        git_hub_repo = os.getenv('GIT_HUB_REPO')
         code_project_dir = os.getenv('CODE_PROJECT_DIR')
         git_to_merge_branch = os.getenv('GIT_TO_MERGE_BRANCH')
         git_from_merge_branch = os.getenv('GIT_FROM_MERGE_BRANCH')
+
+        project_name = git_hub_repo.split('/')[-1].split('.')[0]
 
         found_files = search_files(code_project_dir)
         logger.debug(f"{Fore.GREEN} found_files: {found_files}")
@@ -84,10 +89,12 @@ def start_interaction_loop():
             logger.info(f"not found files")
         else:
             logger.info(f"found files")
-            git_commit(code_project_dir, "add comment")
-            git_push(code_project_dir)
-            merge_request_github(git_to_merge_branch, git_from_merge_branch)
-            request_telegram_alarm()
+            git_add_all(code_project_dir, project_name)
+            #
+            git_commit(code_project_dir, "add comment", project_name)
+            git_push(code_project_dir, project_name, git_from_merge_branch)
+            pull_request_github(git_to_merge_branch, git_from_merge_branch)
+            # request_telegram_alarm()
         time.sleep(60)
 
 
