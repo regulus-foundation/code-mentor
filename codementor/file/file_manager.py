@@ -4,7 +4,7 @@ import os
 def search_files(directory):
 
     found_files = []
-    word = 'code-mentor' + ':' + 'comment'
+    word = 'code-mentor' + ':' + 'docs'
     # found_files = search_files(directory, word)
 
     # 디렉 토리의 모든 파일과 하위 디렉 토리를 순회 합니다.

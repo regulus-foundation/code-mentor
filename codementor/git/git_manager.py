@@ -49,11 +49,11 @@ def git_checkout_new_branch(save_to_path, branch_name, project_name):
         logger.info(f"Already have branch: {e}")
 
 
-def git_merge(save_to_path, target_branch_name, project_name):
+def git_merge_origin(save_to_path, target_branch_name, project_name):
     try:
 
         # git clone 명령어 실행
-        cmd = ["git", "merge", target_branch_name]
+        cmd = ["git", "merge", f"origin/{target_branch_name}"]
         subprocess.run(cmd, cwd=save_to_path + "/" + project_name, check=True)
         logger.info(f"Successfully merge {target_branch_name}")
 
@@ -76,10 +76,10 @@ def git_pull(save_to_path, project_name):
         raise e
 
 
-def git_fetch(save_to_path, project_name):
+def git_fetch_origin(save_to_path, project_name, branch_name):
     try:
         # git clone 명령어 실행
-        cmd = ["git", "fetch"]
+        cmd = ["git", "fetch", "origin", branch_name]
         subprocess.run(cmd, cwd=save_to_path + "/" + project_name, check=True)
         logger.info(f"Successfully fetch")
 
@@ -113,10 +113,10 @@ def git_commit(save_to_path, commit_message, project_name):
         logger.info(f"Error occurred while commit")
 
 
-def git_push(save_to_path, project_name):
+def git_push(save_to_path, project_name, branch_name):
     try:
         # git push 명령어 실행
-        cmd = ["git", "push", "--force"]
+        cmd = ["git", "push", "--set-upstream", "origin", branch_name]
         subprocess.run(cmd, cwd=save_to_path + "/" + project_name, check=True)
         logger.info(f"Successfully push")
 
